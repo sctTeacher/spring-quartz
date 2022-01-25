@@ -1,0 +1,76 @@
+server:
+  contextPath: /
+  port: 9090
+spring:
+  profiles:
+    active: dev
+  application:
+    name: spring-quartz
+
+---
+spring:
+  profiles: dev
+  datasource:
+    url: jdbc:mysql://47.94.226.83:3306/yxsd?serverTimezone=GMT%2B8&characterEncoding=utf8&useUnicode=true&useSSL=false&nullCatalogMeansCurrent=true
+    username: root
+    password: Sc123456@
+    driverClassName: com.mysql.cj.jdbc.Driver
+    type: com.alibaba.druid.pool.DruidDataSource
+    druid:
+      web-stat-monitor:
+        enabled: true
+    initialSize: 5
+    minIdle: 5
+    maxActive: 100
+    maxWait: 30000
+    timeBetweenEvictionRunsMillis: 60000
+    minEvictableIdleTimeMillis: 300000
+    maxEvictableIdleTimeMillis: 2000000
+    #validationQuery: SELECT 1
+    validationQuery: SELECT 1 FROM DUAL
+    validationQueryTimeout: 10000
+    testWhileIdle: true
+    testOnBorrow: false
+    testOnReturn: false
+    poolPreparedStatements: true
+    maxPoolPreparedStatementPerConnectionSize: 20
+    #filters: stat,wall
+    connectionProperties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=5000
+    quartz:
+      url: ${spring.datasource.url}
+      username: ${spring.datasource.username}
+      password: ${spring.datasource.password}
+      driverClassName: ${spring.datasource.driverClassName}
+      type: ${spring.datasource.type}
+  quartz:
+    schedulerName: mySchedule
+    autoStartup: true
+    startupDelay: 0
+    waitForJobsToCompleteOnShutdown: true
+    overwriteExistingJobs: false
+    jobStoreType: jdbc
+    jdbc:
+      initializeSchema: always
+    properties:
+      org:
+        quartz:
+          scheduler:
+            instanceName: quartzScheduler
+            instanceId: AUTO
+            makeSchedulerThreadDaemon: true
+            skipUpdateCheck: true
+          threadPool:
+            class: org.quartz.simpl.SimpleThreadPool
+            makeThreadsDaemons: true
+            threadCount: 50
+            threadPriority: 5
+            threadsInheritContextClassLoaderOfInitializingThread: true
+          jobStore:
+            class: org.quartz.impl.jdbcjobstore.JobStoreTX
+            driverDelegateClass: org.quartz.impl.jdbcjobstore.StdJDBCDelegate
+            tablePrefix: QRTZ_
+            isClustered: false
+            misfireThreshold: 2500
+mybatis:
+  mapper-locations: classpath:/mapper/*.xml
+  type-aliases-package: com.shan.entity
