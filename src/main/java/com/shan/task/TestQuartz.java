@@ -15,7 +15,7 @@ import java.util.Date;
 
 @Component
 @DisallowConcurrentExecution
-//@QuartzScheduled(name = "TestQuartz", group = "group1", cron = QuartzCronUtils.QUARTZ_CRON_TEN_SECOND)
+@QuartzScheduled(name = "TestQuartz", group = "group1", cron = QuartzCronUtils.QUARTZ_CRON_TEN_SECOND)
 public class TestQuartz extends QuartzJobBean {
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
     @Override
