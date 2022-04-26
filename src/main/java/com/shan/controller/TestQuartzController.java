@@ -8,7 +8,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 //用于测试类
 @RestController
-public class TestController {
+@RequestMapping("/quartz")
+public class TestQuartzController {
 
     @Autowired
     private TestService testService;
